@@ -6,6 +6,8 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\SeriesController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MovieSeriesController;
+use App\Http\Controllers\VideoStreamController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +30,8 @@ Route::resource('series', SeriesController::class);
 
 // Routes for Categories
 Route::resource('categories', CategoryController::class);
+
+Route::get('/watch/{type}/{id}', [MovieSeriesController::class, 'watch'])->name('watch');
+
+Route::get('/stream/{type}/{id}', [VideoStreamController::class, 'stream'])->name('stream');
+

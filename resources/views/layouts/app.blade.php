@@ -5,7 +5,8 @@
     <title>@yield('title', 'Netflix Engine')</title>
     <!-- Include Bootstrap CSS for styling (Optional) -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+    <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
     <!-- Additional CSS -->
     @yield('styles')
 </head>
