@@ -22,4 +22,10 @@ class Series extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function episodes()
+    {
+        return $this->hasMany(Episode::class);
+    }
+
 }

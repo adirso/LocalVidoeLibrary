@@ -23,4 +23,72 @@
             @endif
         </div>
     </div>
+
+    <script>
+        // Start playback from progress_time
+        var video = document.getElementById('video-player');
+        video.currentTime = {{ $progressTime }};
+    </script>
+
+    <script>
+        var video = document.getElementById('video-player');
+        var mediaType = '{{ $type }}'; // 'movie' or 'episode'
+        var mediaId = '{{ $media->id }}'; // movie or episode ID
+        var progressInterval;
+
+        // Function to update progress via API
+        function updateProgress() {
+            var currentTime = Math.floor(video.currentTime); // Get current playback time in seconds
+            var apiUrl = '';
+
+            if (mediaType === 'movie') {
+                apiUrl = `/api/movies/${mediaId}/progress`;
+            } else if (mediaType === 'episode') {
+                apiUrl = `/api/episodes/${mediaId}/progress`;
+            }
+
+            fetch(apiUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    progress_time: currentTime
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Progress updated:', data);
+                })
+                .catch(error => {
+                    console.error('Error updating progress:', error);
+                });
+        }
+
+        // Start updating progress every 60 seconds
+        function startProgressUpdates() {
+            if (!progressInterval) {
+                progressInterval = setInterval(updateProgress, 60000); // Every 60 seconds
+            }
+        }
+
+        // Stop updating progress
+        function stopProgressUpdates() {
+            if (progressInterval) {
+                clearInterval(progressInterval);
+                progressInterval = null;
+            }
+            updateProgress(); // Update progress one last time when stopping
+        }
+
+        // Start updating progress when video starts playing
+        video.addEventListener('play', startProgressUpdates);
+
+        // Stop updating progress when video is paused or ends
+        video.addEventListener('pause', stopProgressUpdates);
+        video.addEventListener('ended', stopProgressUpdates);
+    </script>
+
+
 @endsection

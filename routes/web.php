@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieSeriesController;
 use App\Http\Controllers\VideoStreamController;
+use App\Http\Controllers\EpisodeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +36,6 @@ Route::get('/watch/{type}/{id}', [MovieSeriesController::class, 'watch'])->name(
 
 Route::get('/stream/{type}/{id}', [VideoStreamController::class, 'stream'])->name('stream');
 
+Route::get('/series/{seriesId}/episodes', [EpisodeController::class, 'index'])->name('episodes.index');
+Route::get('/episodes/{id}', [EpisodeController::class, 'show'])->name('episodes.show');
+Route::post('/series/{seriesId}/episodes', [EpisodeController::class, 'store'])->name('episodes.store');
