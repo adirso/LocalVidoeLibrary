@@ -9,6 +9,7 @@
     <p><strong>Category ID:</strong> {{ $movie->category_id }}</p>
     <p><strong>Progress Time:</strong> {{ $movie->progress_time }}</p>
 
+    <a href="{{ route('watch', ['type' => 'movie', 'id' => $movie->id]) }}" class="btn btn-primary">Watch</a>
     <a href="{{ route('movies.edit', $movie->id) }}" class="btn btn-warning">Edit</a>
     <form action="{{ route('movies.destroy', $movie->id) }}" method="POST" style="display:inline;">
         @csrf
