@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Watch ' . ucfirst($type))
+@section('title', sprintf('Watch %s', $media->name) . ucfirst($type))
 
 @section('content')
     <div class="container">
