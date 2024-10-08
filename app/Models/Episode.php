@@ -21,4 +21,9 @@ class Episode extends Model
     {
         return $this->belongsTo(Series::class);
     }
+
+    public function captions()
+    {
+        return $this->hasMany(Subtitle::class);
+    }
 }

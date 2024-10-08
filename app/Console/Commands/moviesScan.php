@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use GuzzleHttp\Client;
@@ -23,7 +24,7 @@ class moviesScan extends Command
      */
     protected $description = 'Scan the movies folder and add movies to the database using TheMovieDB API.';
 
-    protected $releaseTags = [
+    protected array $releaseTags = [
         '1080p', '720p', '480p', 'BRRip', 'BluRay', 'HDRip', 'DVDRip', 'WEBRip', 'WEB DL', 'WEB-DL',
         'XviD', 'x264', 'H264', 'AC3', 'AAC', 'AAC2 0', 'AAC 2 0', 'DTS', 'YIFY', 'RARBG', 'EVO',
         'Ganool', 'ShAaNiG', 'ETRG', 'Esub', 'Subbed', 'Subs', 'HEVC', 'H265', 'H 265',
@@ -39,30 +40,30 @@ class moviesScan extends Command
      *
      * @var array
      */
-    protected $supportedFormats = ['mp4', 'mkv', 'avi', 'mov'];
+    protected array $supportedFormats = ['mp4', 'mkv', 'avi', 'mov'];
 
     /**
      * TheMovieDB API base URL.
      *
      * @var string
      */
-    protected $tmdbApiBaseUrl = 'https://api.themoviedb.org/3/search/movie';
+    protected string $tmdbApiBaseUrl = 'https://api.themoviedb.org/3/search/movie';
 
     /**
      * TheMovieDB API Key.
      *
      * @var string
      */
-    protected $tmdbApiKey;
+    protected mixed $tmdbApiKey;
 
     /**
      * HTTP Client for making API requests.
      *
      * @var Client
      */
-    protected $client;
+    protected Client $client;
 
-    protected $getID3;
+    protected \getID3 $getID3;
 
     /**
      * Constructor to initialize HTTP client and API key.
@@ -113,7 +114,7 @@ class moviesScan extends Command
      * @param string $directory
      * @return array
      */
-    protected function scanMoviesDirectory($directory)
+    protected function scanMoviesDirectory($directory): array
     {
         $files = File::allFiles($directory);
 
@@ -134,7 +135,7 @@ class moviesScan extends Command
      *
      * @param string $moviePath
      */
-    protected function processMovie($moviePath)
+    protected function processMovie($moviePath): void
     {
         // Get the directory name of the movie file
         $movieDirectory = dirname($moviePath);
@@ -164,8 +165,9 @@ class moviesScan extends Command
      *
      * @param string $movieName
      * @return array|null
+     * @throws GuzzleException
      */
-    protected function fetchMovieFromTMDB($movieName)
+    protected function fetchMovieFromTMDB(string $movieName): ?array
     {
         $url = $this->tmdbApiBaseUrl . '?query=' . urlencode($movieName) . '&api_key=' . $this->tmdbApiKey;
 
@@ -190,7 +192,7 @@ class moviesScan extends Command
      * @param array $movieData
      * @param string $moviePath
      */
-    protected function addMovieToDatabase($movieData, $moviePath)
+    protected function addMovieToDatabase(array $movieData, string $moviePath): void
     {
         // Prepare movie data for saving
         $movie = Movie::create([
@@ -211,7 +213,7 @@ class moviesScan extends Command
      * @param string $name
      * @return string
      */
-    protected function cleanMovieName($name)
+    protected function cleanMovieName(string $name): string
     {
         // Remove file extension if any
         $name = pathinfo($name, PATHINFO_FILENAME);
@@ -258,7 +260,11 @@ class moviesScan extends Command
         return $name;
     }
 
-    private function isMovie($filePath)
+    /**
+     * @param $filePath
+     * @return bool
+     */
+    private function isMovie($filePath): bool
     {
         // Analyze the file
         $fileInfo = $this->getID3->analyze($filePath);

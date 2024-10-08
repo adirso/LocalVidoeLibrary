@@ -20,4 +20,9 @@ class Movie extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function captions()
+    {
+        return $this->hasMany(Subtitle::class);
+    }
 }

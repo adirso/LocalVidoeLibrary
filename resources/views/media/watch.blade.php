@@ -10,13 +10,16 @@
         <div class="video-player">
             <video id="video-player" width="100%" controls>
                 <source src="{{ route('stream', ['type' => $type, 'id' => $media->id]) }}" type="video/mp4">
+                @foreach($media->captions as $caption)
+                    <track src="{{ asset('storage/' . $caption->path) }}" kind="subtitles" srclang="{{ $caption->language }}" label="{{ ucfirst($caption->language) }}">
+                @endforeach
                 Your browser does not support the video tag.
             </video>
         </div>
 
         <div class="media-info mt-3">
             @if($type === 'movie')
-                <p><strong>Progress:</strong> {{ $media->progress_time }} minutes watched.</p>
+                <p><strong>Progress:</strong> {{ floor($media->progress_time / 60) }}:{{ str_pad($media->progress_time % 60, 2, '0', STR_PAD_LEFT) }} minutes watched.</p>
             @elseif($type === 'series')
                 <p><strong>Season:</strong> {{ $media->season }} | <strong>Episode:</strong> {{ $media->episode }}</p>
                 <p><strong>Progress:</strong> {{ $media->progress_time }} minutes watched.</p>
