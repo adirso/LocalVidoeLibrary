@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/MovieController.php
 
 namespace App\Http\Controllers;
 
@@ -13,8 +12,7 @@ class MovieController extends Controller
     private MovieService $movieService;
     private CategoryService $categoryService;
 
-    public function __construct(MovieService $movieService, CategoryService  $categoryService)
-
+    public function __construct(MovieService $movieService, CategoryService $categoryService)
     {
         $this->movieService = $movieService;
         $this->categoryService = $categoryService;

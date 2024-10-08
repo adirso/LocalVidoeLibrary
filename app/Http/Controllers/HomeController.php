@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use NetflixEngine\Movie\MovieService;
 use NetflixEngine\Series\SeriesService;
 use NetflixEngine\Category\CategoryService;

@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/SeriesController.php
 
 namespace App\Http\Controllers;
 

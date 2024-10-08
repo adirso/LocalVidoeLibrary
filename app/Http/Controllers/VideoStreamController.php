@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use App\Models\Movie;
 use App\Models\Series;
@@ -22,15 +21,12 @@ class VideoStreamController extends Controller
             abort(404, 'Media type not found.');
         }
 
-        // Get the file path from the movie or series model
         $filePath = $media->path;
 
-        // Check if the file exists
         if (!file_exists($filePath)) {
             abort(404, 'Video file not found.');
         }
 
-        // Stream the video file
         return $this->streamVideo($filePath);
     }
 
@@ -39,11 +35,9 @@ class VideoStreamController extends Controller
      */
     private function streamVideo($filePath)
     {
-        // Get file size
         $fileSize = filesize($filePath);
         $file = fopen($filePath, 'rb');
 
-        // Determine if there's a range request from the browser
         $start = 0;
         $length = $fileSize;
         $statusCode = 200; // Default is 200 OK
