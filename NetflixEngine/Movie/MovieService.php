@@ -73,4 +73,12 @@ class MovieService
         return $this->repository->latest($limit);
     }
 
+    /**
+     * @param int $limit
+     * @return array
+     */
+    public function getLastViewedMovies(int $limit = 4): array
+    {
+        return $this->repository->getLastViewedMovies($limit);
+    }
 }

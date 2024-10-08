@@ -51,6 +51,15 @@ interface MovieRepositoryInterface
 
     public function latest(int $limit): array;
 
+    /**
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
     public function paginate(int $perPage): LengthAwarePaginator;
 
+    /**
+     * @param int $limit
+     * @return array
+     */
+    public function getLastViewedMovies(int $limit): array;
 }

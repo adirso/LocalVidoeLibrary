@@ -20,11 +20,13 @@ class ProgressController extends Controller
 
         $movie = Movie::findOrFail($id);
         $movie->progress_time = $request->progress_time;
+        $movie->last_viewed_at = now();
         $movie->save();
 
         return response()->json([
             'message' => 'Movie progress updated successfully',
             'progress_time' => $movie->progress_time,
+            'last_viewed_at' => $movie->last_viewed_at,
         ], 200);
     }
 

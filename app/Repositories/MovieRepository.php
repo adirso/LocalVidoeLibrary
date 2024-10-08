@@ -83,4 +83,13 @@ class MovieRepository implements MovieRepositoryInterface
         return MovieModel::orderBy('created_at', 'desc')->paginate($perPage);
     }
 
+    public function getLastViewedMovies($limit = 4): array
+    {
+        $models =  MovieModel::whereNotNull('last_viewed_at')
+            ->orderBy('last_viewed_at', 'desc')
+            ->limit($limit)
+            ->get();
+
+        return $models->map(fn($model) => $this->mapToEntity($model))->toArray();
+    }
 }

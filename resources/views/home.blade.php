@@ -6,7 +6,18 @@
 @section('content')
     <h1>Welcome to Netflix Engine</h1>
 
-    <!-- Latest Movies -->
+    <h2>Last viewed movies</h2>
+    @if($lastViewedMovies)
+        <div class="row">
+            @foreach($lastViewedMovies as $lastViewedMovie)
+                <div class="col-md-3">
+                    @include('movies.partials.card', ['movie' => $lastViewedMovie])
+                </div>
+            @endforeach
+        </div>
+    @else
+        <p>No movies available.</p>
+    @endif
     <h2>Latest Movies</h2>
     @if($latestMovies)
         <div class="row">
@@ -20,7 +31,6 @@
         <p>No movies available.</p>
     @endif
 
-    <!-- Latest Series -->
     <h2>Latest Series</h2>
     @if($latestSeries)
         <div class="row">
@@ -34,7 +44,6 @@
         <p>No series available.</p>
     @endif
 
-    <!-- Categories -->
     <h2>Categories</h2>
     @if($categories)
         <ul class="list-group">
