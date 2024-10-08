@@ -7,7 +7,7 @@ use App\Models\Movie;
 use App\Models\Series;
 use Illuminate\Http\Request;
 
-class MovieSeriesController extends Controller
+class MediaController extends Controller
 {
     public function watch($type, $id)
     {
